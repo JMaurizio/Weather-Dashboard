@@ -7,16 +7,30 @@ const tempEl = document.getElementById("temp")
 const windEl = document.getElementById("wind")
 const humidityEl = document.getElementById("humidity")
 const uvIndexEl = document.getElementById("uvindex")
+const previousSearch = document.getElementById("previous-search")
+const btnEl = document.createElement("btn")
 
+let searches = localStorage.getItem("mySearches")
+if (searches) {
+	searches = JSON.parse(localStorage.getItem("mySearches"))
+} else {
+	localStorage.setItem("mySearches", JSON.stringify([]))
+}
+
+
+// Log user input into requestUrl
 function handleSearch() {
     let city = input.value
     let requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
-    input.value = ""
     if(city) {
         getCityData(requestUrl)
     }
+    else {
+        alert("Please enter a city name")
+    }
 }
 
+//Return API data
 function getCityData(requestUrl) {
     fetch(requestUrl)
     .then(function(response) {
@@ -28,16 +42,17 @@ function getCityData(requestUrl) {
     })
 }
 
+//Take cityData longitude and latitude data to get more in depth weather call
 function convertOneCall(cityData) {
     cityNameEl.textContent = cityData.name
+    saveSearches(cityData)
     let cityLat = cityData.coord.lat
     let cityLon = cityData.coord.lon
-    console.log(cityLat)
-    console.log(cityLon)
     let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLat}&lon=${cityLon}&units=imperial&exclude=minutely&appid=${key}`
     getNewCityData(url)
 }
 
+//Return new API data
 function getNewCityData(url) {
     fetch(url)
     .then(function(response) {
@@ -49,6 +64,7 @@ function getNewCityData(url) {
     }) 
 }
 
+//Populate data to weather dashboard
 function populateResults(newCityData) {
     tempEl.textContent = newCityData.current.temp + "°F"
     windEl.textContent = newCityData.current.wind_speed + "MPH"
@@ -56,4 +72,14 @@ function populateResults(newCityData) {
     uvIndexEl.textContent = newCityData.current.uvi
 
 }
+
+//Save recent searches to local storage
+function saveSearches(cityData) {
+    // previousSearch.appendChild(btnEl)
+    // btnEl.textContent = cityData.name
+    let newSearch = JSON.stringify(cityData.name)
+    searches.push(newSearch)
+
+}
+
 searchBtn.addEventListener('click', handleSearch)
