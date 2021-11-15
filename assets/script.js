@@ -9,13 +9,6 @@ const humidityEl = document.getElementById("humidity")
 const uvIndexEl = document.getElementById("uvindex")
 const previousSearch = document.getElementById("previous-search")
 
-// let searches = localStorage.getItem("mySearches")
-// if (searches) {
-// 	searches = JSON.parse(localStorage.getItem("mySearches"))
-// } else {
-// 	localStorage.setItem("mySearches", JSON.stringify([]))
-// }
-
 
 // Log user input into requestUrl
 function handleSearch() {
@@ -74,21 +67,25 @@ function populateResults(newCityData) {
 
 //Save recent searches to local storage
 function saveSearches(cityData) {
-    // previousSearch.appendChild(btnEl)
-    // btnEl.textContent = cityData.name
     let newSearch = cityData.name
     localStorage.setItem(newSearch,newSearch)
-    for(i = 0; i < localStorage.length; i++) {
-        console.log(localStorage.key(i))
-    }    
-    
+    addRecent(newSearch)
 }
 
+//Adds new button to recents when a city is searched
+function addRecent(newSearch) {
+    const btnEl = document.createElement("btn")
+    previousSearch.appendChild(btnEl)
+    btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
+    btnEl.textContent = newSearch
+}
+
+//Retrieves recent search history and displays it
 function recentSearch() {
     for(i = 0; i < localStorage.length; i++) {
         const btnEl = document.createElement("btn")
         previousSearch.appendChild(btnEl)
-        btnEl.setAttribute("class","btn btn-dark btn-block mt-3 mb-3 p-2 col-")
+        btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
         btnEl.textContent = localStorage.key(i)
     }
 }
