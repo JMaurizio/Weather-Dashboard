@@ -8,14 +8,13 @@ const windEl = document.getElementById("wind")
 const humidityEl = document.getElementById("humidity")
 const uvIndexEl = document.getElementById("uvindex")
 const previousSearch = document.getElementById("previous-search")
-const btnEl = document.createElement("btn")
 
-let searches = localStorage.getItem("mySearches")
-if (searches) {
-	searches = JSON.parse(localStorage.getItem("mySearches"))
-} else {
-	localStorage.setItem("mySearches", JSON.stringify([]))
-}
+// let searches = localStorage.getItem("mySearches")
+// if (searches) {
+// 	searches = JSON.parse(localStorage.getItem("mySearches"))
+// } else {
+// 	localStorage.setItem("mySearches", JSON.stringify([]))
+// }
 
 
 // Log user input into requestUrl
@@ -77,9 +76,22 @@ function populateResults(newCityData) {
 function saveSearches(cityData) {
     // previousSearch.appendChild(btnEl)
     // btnEl.textContent = cityData.name
-    let newSearch = JSON.stringify(cityData.name)
-    searches.push(newSearch)
-
+    let newSearch = cityData.name
+    localStorage.setItem(newSearch,newSearch)
+    for(i = 0; i < localStorage.length; i++) {
+        console.log(localStorage.key(i))
+    }    
+    
 }
 
+function recentSearch() {
+    for(i = 0; i < localStorage.length; i++) {
+        const btnEl = document.createElement("btn")
+        previousSearch.appendChild(btnEl)
+        btnEl.setAttribute("class","btn btn-dark btn-block mt-3 mb-3 p-2 col-")
+        btnEl.textContent = localStorage.key(i)
+    }
+}
+
+recentSearch()
 searchBtn.addEventListener('click', handleSearch)
