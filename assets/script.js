@@ -80,6 +80,14 @@ function addRecent(newSearch) {
     btnEl.textContent = newSearch
 }
 
+//Refetches search data of previous searches   CURRENTLY NOT FUCTIONING
+const recent = document.getElementsByClassName("recent")
+function refetch() {
+    let city = recent.textContent 
+    let fetchUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
+    console.log(fetchUrl)
+}
+
 //Retrieves recent search history and displays it
 function recentSearch() {
     for(i = 0; i < localStorage.length; i++) {
@@ -92,3 +100,4 @@ function recentSearch() {
 
 recentSearch()
 searchBtn.addEventListener('click', handleSearch)
+recent.addEventListener("click", refetch)
