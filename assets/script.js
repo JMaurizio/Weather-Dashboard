@@ -107,6 +107,7 @@ function recentSearch() {
     }
 }
 
+//Populates the five day forecast section
 function populateFiveDayForecast(newCityData) {
     fiveDayCards.innerHTML = ""
     for(i = 0; i < newCityData.daily.length; i++) {
@@ -118,7 +119,9 @@ function populateFiveDayForecast(newCityData) {
         div.append(h5,p)
         h5.textContent = moment().add(i+1, 'days').format("MMM Do YY")
         p.innerHTML = "Temp" + newCityData.daily[i].temp.day + "°F" + "<br/>" + "Humidity" + newCityData.daily[i].humidity + "%"
-        
+        if(i >= 4) {
+            break;
+        }
     }
 }
 
