@@ -72,22 +72,15 @@ function populateResults(newCityData) {
 function saveSearches(cityData) {
     let newSearch = cityData.name
     localStorage.setItem(newSearch,newSearch)
-    addRecent(newSearch)
+    addRecent(newSearch) 
 }
 
-//Adds new button to recents when a city is searched NOT FUNCTIONING
+//Adds new button to recents when a city is searched
 function addRecent(newSearch) {
     const btnEl = document.createElement("btn")
-    let recent = document.getElementsByClassName("recent")
-    for(var i = 0; i < recent.length; i++ )
-        if(recent[i].innerHTML !== newSearch) {
-            previousSearch.appendChild(btnEl)
-            btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
-            btnEl.textContent = newSearch
-        }
-        else {
-            console.log(recent[i].innerHTML)
-        }    
+    previousSearch.appendChild(btnEl)
+    btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
+    btnEl.textContent = newSearch       
 }
 
 //Refetches search data of previous searches
