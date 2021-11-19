@@ -8,6 +8,7 @@ const windEl = document.getElementById("wind")
 const humidityEl = document.getElementById("humidity")
 const uvIndexEl = document.getElementById("uvindex")
 const previousSearch = document.getElementById("previous-search")
+const fiveDayCards = document.getElementById("fiveDayCards")
 
 
 // Log user input into requestUrl
@@ -36,7 +37,7 @@ function getCityData(requestUrl) {
 
 //Take cityData longitude and latitude data to get more in depth weather call
 function convertOneCall(cityData) {
-    cityNameEl.textContent = cityData.name
+    cityNameEl.textContent = cityData.name + "(" + moment().format("MMM Do YY") + ")"
     saveSearches(cityData)
     let cityLat = cityData.coord.lat
     let cityLon = cityData.coord.lon
@@ -53,15 +54,17 @@ function getNewCityData(url) {
     .then(function(data) {
         let newCityData = data
         populateResults(newCityData)
+        populateFiveDayForecast(newCityData)
+        console.log(newCityData)
     }) 
 }
 
 //Populate data to weather dashboard
 function populateResults(newCityData) {
-    tempEl.textContent = newCityData.current.temp + "°F"
-    windEl.textContent = newCityData.current.wind_speed + "MPH"
-    humidityEl.textContent = newCityData.current.humidity + "%"
-    uvIndexEl.textContent = newCityData.current.uvi
+    tempEl.textContent = "Temp:" + newCityData.current.temp + "°F"
+    windEl.textContent = "Wind:" + newCityData.current.wind_speed + "MPH"
+    humidityEl.textContent = "Humidity:" + newCityData.current.humidity + "%"
+    uvIndexEl.textContent = "UV Index:" + newCityData.current.uvi
 
 }
 
@@ -72,19 +75,19 @@ function saveSearches(cityData) {
     addRecent(newSearch)
 }
 
-//Adds new button to recents when a city is searched
+//Adds new button to recents when a city is searched NOT FUNCTIONING
 function addRecent(newSearch) {
     const btnEl = document.createElement("btn")
     let recent = document.getElementsByClassName("recent")
-    console.log(previousSearch.textContent)
-    if(recent.textContent == newSearch) {
-
-    }
-    else {
-        previousSearch.appendChild(btnEl)
-        btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
-        btnEl.textContent = newSearch
-    }    
+    for(var i = 0; i < recent.length; i++ )
+        if(recent[i].innerHTML !== newSearch) {
+            previousSearch.appendChild(btnEl)
+            btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
+            btnEl.textContent = newSearch
+        }
+        else {
+            console.log(recent[i].innerHTML)
+        }    
 }
 
 //Refetches search data of previous searches
@@ -103,6 +106,22 @@ function recentSearch() {
         btnEl.textContent = localStorage.key(i)
     }
 }
+
+function populateFiveDayForecast(newCityData) {
+    fiveDayCards.innerHTML = ""
+    for(i = 0; i < newCityData.daily.length; i++) {
+        const div = document.createElement("div")
+        const h5 = document.createElement("h5")
+        const p = document.createElement("p")
+        div.setAttribute("class", "card border m-2")
+        fiveDayCards.appendChild(div)
+        div.append(h5,p)
+        h5.textContent = moment().add(i+1, 'days').format("MMM Do YY")
+        p.innerHTML = "Temp" + newCityData.daily[i].temp.day + "°F" + "<br/>" + "Humidity" + newCityData.daily[i].humidity + "%"
+        
+    }
+}
+
 
 recentSearch()
 searchBtn.addEventListener('click', handleSearch)
