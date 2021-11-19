@@ -75,12 +75,19 @@ function saveSearches(cityData) {
 //Adds new button to recents when a city is searched
 function addRecent(newSearch) {
     const btnEl = document.createElement("btn")
-    previousSearch.appendChild(btnEl)
-    btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
-    btnEl.textContent = newSearch
+    let recent = document.getElementsByClassName("recent")
+    console.log(previousSearch.textContent)
+    if(recent.textContent == newSearch) {
+
+    }
+    else {
+        previousSearch.appendChild(btnEl)
+        btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
+        btnEl.textContent = newSearch
+    }    
 }
 
-//Refetches search data of previous searches   CURRENTLY NOT FUCTIONING
+//Refetches search data of previous searches
 function refetch(event) {
     let city = event.target.textContent
     let fetchUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
