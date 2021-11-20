@@ -9,22 +9,22 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <nav class="navbar bg-dark">
-        <span class="w-100 text-center text-white">Weather Dashboard</span>
+    <nav class="navbar">
+        <span class="w-100 text-center text-white font-weight-bold">Weather Dashboard</span>
     </nav>
         <main class="row">
-            <section class="col-3">
+            <section class="col-3 ml-2 aside">
                 <h3 class="text-center mb-2">Search for a City</h3>
                 <input type="text" placeholder="Enter your city" class="form-control" id="city-input">
-                <button class="btn btn-dark btn-block mt-3 mb-3" id="search">Search</button>
+                <button class="btn text-white btn-block mt-3 mb-3" id="search">Search</button>
                 <hr>
                 <div class="text-center row" id="previous-search">
                 </div>
             </section>    
         
             <section class="col-8">
-                <div class="row border">
-                    <div class="col-12" id="city-name">
+                <div class="row ml-2" id="current">
+                    <div class="col-12 font-weight-bold" id="city-name">
                         Your City
                     </div>
                     <div class="col-12" id="temp">
@@ -41,9 +41,9 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <h3>5-Day Forecast</h3>
+                    <h3 id="fday">5-Day Forecast</h3>
                 </div>    
-                <div class="col-12 d-flex" id="fiveDayCards">
+                <div class="col-12 d-flex justify-content-between align-content-center" id="fiveDayCards">
                 </div>            
             </section>    
         </main>

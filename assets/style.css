@@ -1,0 +1,56 @@
+:root {
+    --primary: #65599E;
+    --secondary: #5F5C6B;
+    --tertiary: #D2CDEE;
+}
+
+.navbar {
+    font-size: 24px;
+    background-color: var(--primary);
+}
+
+.aside {
+    background-color: var(--tertiary);
+    border:var(--secondary) solid 4px;
+    border-top: none;
+}
+
+.aside h3 {
+    color: var(--secondary);
+}
+
+.recent, #search {
+    background-color: var(--primary);
+}
+
+#current {
+    background-color: var(--tertiary);
+    border: solid var(--secondary) 4px;
+    color: var(--secondary);
+    border-top: none;
+}
+
+#city-name {
+    font-size: 22px;
+}
+
+#temp, #wind, #humidity, #uvindex {
+    font-size: 18px;
+}
+
+#fday {
+    color: var(--secondary);
+}
+
+.card {
+    background-color: var(--tertiary);
+    color: var(--secondary);
+    border: var(--secondary) solid 2px;
+    height: 175px;
+    width: 125px;
+}
+
+.card p {
+    line-height: 35px;
+    margin-left: 4px;
+}

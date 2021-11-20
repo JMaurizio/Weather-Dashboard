@@ -38,12 +38,18 @@ function getCityData(requestUrl) {
 
 //Take cityData longitude and latitude data to get more in depth weather call
 function convertOneCall(cityData) {
+    let logo = document.createElement("img")
+    let icon = `http://openweathermap.org/img/wn/${cityData.weather[0].icon}@2x.png`
+    logo.setAttribute("src", icon)
+    logo.setAttribute("alt", "weather condition logo")
     cityNameEl.textContent = cityData.name + "(" + moment().format("MMM Do YY") + ")"
+    cityNameEl.appendChild(logo) 
     saveSearches(cityData)
     let cityLat = cityData.coord.lat
     let cityLon = cityData.coord.lon
     let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLat}&lon=${cityLon}&units=imperial&exclude=minutely&appid=${key}`
     getNewCityData(url)
+    console.log(cityData)
 }
 
 //Return new API data
@@ -56,15 +62,16 @@ function getNewCityData(url) {
         let newCityData = data
         populateResults(newCityData)
         populateFiveDayForecast(newCityData)
+        console.log(newCityData)
     }) 
 }
 
 //Populate data to weather dashboard
 function populateResults(newCityData) {
-    tempEl.textContent = "Temp:" + newCityData.current.temp + "°F"
-    windEl.textContent = "Wind:" + newCityData.current.wind_speed + "MPH"
-    humidityEl.textContent = "Humidity:" + newCityData.current.humidity + "%"
-    uvIndexEl.textContent = "UV Index:" + newCityData.current.uvi
+    tempEl.textContent = "Temp: " + newCityData.current.temp + "°F"
+    windEl.textContent = "Wind: " + newCityData.current.wind_speed + "MPH"
+    humidityEl.textContent = "Humidity: " + newCityData.current.humidity + "%"
+    uvIndexEl.textContent = "UV Index: " + newCityData.current.uvi
 
 }
 
@@ -81,7 +88,7 @@ function saveSearches(cityData) {
 function addRecent(newSearch) {
     const btnEl = document.createElement("btn")
     previousSearch.appendChild(btnEl)
-    btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
+    btnEl.setAttribute("class","btn btn-block mt-1 mb-1 ml-3 mr-3 p-2 text-white col- recent")
     btnEl.textContent = newSearch       
 }
 
@@ -98,7 +105,7 @@ function recentSearch() {
     for(i = 0; i < localStorage.length; i++) {
         const btnEl = document.createElement("btn")
         previousSearch.appendChild(btnEl)
-        btnEl.setAttribute("class","btn btn-dark btn-block mt-1 mb-1 p-2 col- recent")
+        btnEl.setAttribute("class","btn btn-block mt-1 mb-1 ml-3 mr-3 p-2 text-white col- recent")
         btnEl.textContent = localStorage.key(i)
     }
 }
@@ -110,11 +117,18 @@ function populateFiveDayForecast(newCityData) {
         const div = document.createElement("div")
         const h5 = document.createElement("h5")
         const p = document.createElement("p")
-        div.setAttribute("class", "card border m-2")
+        let img = document.createElement("img")
+        let icon = `http://openweathermap.org/img/wn/${newCityData.daily[i].weather[0].icon}@2x.png`
+        div.setAttribute("class", "card m-2")
+        h5.setAttribute("class", "text-center")
         fiveDayCards.appendChild(div)
-        div.append(h5,p)
+        div.append(h5,img,p)
         h5.textContent = moment().add(i+1, 'days').format("MMM Do YY")
-        p.innerHTML = "Temp" + newCityData.daily[i].temp.day + "°F" + "<br/>" + "Humidity" + newCityData.daily[i].humidity + "%"
+        img.setAttribute("src", icon)
+        img.setAttribute("alt", "weather condition logo")
+        p.innerHTML = "Temp:" + newCityData.daily[i].temp.day + "°F" + "<br/>" +
+                        "Wind:" + newCityData.daily[i].wind_speed + "MPH" + "<br/>" +
+                        "Humidity:" + newCityData.daily[i].humidity + "%"
         if(i >= 4) {
             break;
         }
