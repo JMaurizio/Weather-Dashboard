@@ -21,6 +21,7 @@ function handleSearch() {
     else {
         alert("Please enter a city name")
     }
+    input.value = ""
 }
 
 //Return API data
@@ -55,7 +56,6 @@ function getNewCityData(url) {
         let newCityData = data
         populateResults(newCityData)
         populateFiveDayForecast(newCityData)
-        console.log(newCityData)
     }) 
 }
 
@@ -72,7 +72,9 @@ function populateResults(newCityData) {
 function saveSearches(cityData) {
     let newSearch = cityData.name
     localStorage.setItem(newSearch,newSearch)
-    addRecent(newSearch) 
+    addRecent(newSearch)
+    recentSearch()
+    
 }
 
 //Adds new button to recents when a city is searched
@@ -92,6 +94,7 @@ function refetch(event) {
 
 //Retrieves recent search history and displays it
 function recentSearch() {
+    previousSearch.innerHTML = ""
     for(i = 0; i < localStorage.length; i++) {
         const btnEl = document.createElement("btn")
         previousSearch.appendChild(btnEl)
