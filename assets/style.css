@@ -1,7 +1,11 @@
 :root {
-    --primary: #65599E;
-    --secondary: #5F5C6B;
-    --tertiary: #D2CDEE;
+    --primary: #225925;
+    --secondary: #f8f8f8;
+    --tertiary: #4f5051;
+}
+
+body {
+    background-color: #afafae;
 }
 
 .navbar {
@@ -11,7 +15,7 @@
 
 .aside {
     background-color: var(--tertiary);
-    border:var(--secondary) solid 4px;
+    border:var(--primary) solid 4px;
     border-top: none;
 }
 
@@ -25,13 +29,17 @@
 
 #current {
     background-color: var(--tertiary);
-    border: solid var(--secondary) 4px;
+    border: solid var(--primary) 4px;
     color: var(--secondary);
     border-top: none;
 }
 
 #city-name {
-    font-size: 22px;
+    font-size: 26px;
+}
+
+#logo {
+    display: flex;
 }
 
 #temp, #wind, #humidity, #uvindex {
@@ -45,9 +53,7 @@
 .card {
     background-color: var(--tertiary);
     color: var(--secondary);
-    border: var(--secondary) solid 2px;
-    height: 175px;
-    width: 125px;
+    border: var(--primary) solid 2px;
 }
 
 .card p {

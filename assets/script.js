@@ -40,16 +40,16 @@ function getCityData(requestUrl) {
 function convertOneCall(cityData) {
     let logo = document.createElement("img")
     let icon = `http://openweathermap.org/img/wn/${cityData.weather[0].icon}@2x.png`
+    cityNameEl.textContent = cityData.name + "(" + moment().format("MMM Do YY") + ")"
+    cityNameEl.appendChild(logo)
     logo.setAttribute("src", icon)
     logo.setAttribute("alt", "weather condition logo")
-    cityNameEl.textContent = cityData.name + "(" + moment().format("MMM Do YY") + ")"
-    cityNameEl.appendChild(logo) 
+    logo.setAttribute("id", "logo") 
     saveSearches(cityData)
     let cityLat = cityData.coord.lat
     let cityLon = cityData.coord.lon
     let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLat}&lon=${cityLon}&units=imperial&exclude=minutely&appid=${key}`
     getNewCityData(url)
-    console.log(cityData)
 }
 
 //Return new API data
@@ -62,7 +62,6 @@ function getNewCityData(url) {
         let newCityData = data
         populateResults(newCityData)
         populateFiveDayForecast(newCityData)
-        console.log(newCityData)
     }) 
 }
 
@@ -72,6 +71,15 @@ function populateResults(newCityData) {
     windEl.textContent = "Wind: " + newCityData.current.wind_speed + "MPH"
     humidityEl.textContent = "Humidity: " + newCityData.current.humidity + "%"
     uvIndexEl.textContent = "UV Index: " + newCityData.current.uvi
+    if (newCityData.current.uvi <= 4) {
+        uvIndexEl.setAttribute("class", "bg-success ml-3")
+    }
+    if (newCityData.current.uvi >= 5) {
+        uvIndexEl.setAttribute("class", "bg-warning ml-3")
+    }
+    if (newCityData.current.uvi >= 8) {
+        uvIndexEl.setAttribute("class", "bg-danger ml-3")
+    }
 
 }
 
